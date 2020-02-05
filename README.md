@@ -5,7 +5,7 @@ A JavaFX program that encrypts text files and folders using AES encryption.
 * Type in and encrypt any text.
 * Encrypt/Decrypt text files (e.g. txt, csv, xml, and similar). Quickly de/encrypt with one click. 
 * Encrypt/Decrypt folders including all files in all of its subfolders. (Only text files will be processed. Encrypting binary files may lead to complications)
-* Simple, intuitive program. Easy to use. Additional info in the ReadMe. 
+* Simple, intuitive program. Easy to use. Additional info in the ReadMe Pdf. 
 
 You can see the program being used here: https://youtu.be/xkMLpztjO3M
 
