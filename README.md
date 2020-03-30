@@ -9,13 +9,29 @@ A JavaFX program that encrypts text files and folders using AES encryption.
 <br>
 You can see the program being used here: https://youtu.be/xkMLpztjO3M
 <br><br>
-Here's a useful Windows installer for QFE: https://www.mediafire.com/file/me4t3o9ef5nvavk/qfe-setup.exe/file
+Program download: https://www.mediafire.com/file/ytjnwm745wv3sfh/QFE_download.zip/file
+<br><br>
+Here's a useful Windows installer for QFE: https://www.mediafire.com/file/ytjnwm745wv3sfh/QFE_download.zip/file
+<br>
+
+## Screenshots
+
+<br>
+<p align="center">
+<img src="https://raw.githubusercontent.com/gh28942/QuickFileEncryption/master/screenshot/scr1.jpg" width="60%">
+<br>QFE program</br>
 <br>
 <hr>
 <br>
 <p align="center">
-<img src="https://raw.githubusercontent.com/gh28942/QuickFileEncryption/master/screenshot/aes-screenshot.jpg">
-<br>Screenshot showing encrypted text in the program</br>
+<img src="https://raw.githubusercontent.com/gh28942/QuickFileEncryption/master/screenshot/scr2.jpg" width="60%">
+<br>Text to encrypt</br>
+<br>
+<hr>
+<br>
+<p align="center">
+<img src="https://raw.githubusercontent.com/gh28942/QuickFileEncryption/master/screenshot/scr3.jpg" width="60%">
+<br>Encrypted text</br>
 <br>
 </p>
 <hr>
