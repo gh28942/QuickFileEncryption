@@ -8,7 +8,7 @@ A JavaFX program that encrypts text files and folders using AES encryption.
 * Simple, intuitive program. Easy to use. Additional info in the ReadMe Pdf. 
 <br>
 You can see the program being used here: https://youtu.be/xkMLpztjO3M
-<br>
+<br><br>
 Here's a useful Windows installer for QFE: https://www.mediafire.com/file/me4t3o9ef5nvavk/qfe-setup.exe/file
 <br>
 <hr>
