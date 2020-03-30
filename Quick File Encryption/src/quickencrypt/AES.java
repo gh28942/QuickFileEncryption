@@ -1,71 +1,58 @@
 package quickencrypt;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
+import java.nio.charset.StandardCharsets;
+import java.security.spec.KeySpec;
 import java.util.Base64;
- 
+
 import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
- 
-public class AES {
- 
-	//Encryption code from https://howtodoinjava.com/security/java-aes-encryption-example/
-    private static SecretKeySpec secretKey;
-    private static byte[] key;
- 
-    public static void setKey(String myKey) 
-    {
-        MessageDigest sha = null;
-        try {
-            key = myKey.getBytes("UTF-8");
-            sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16); 
-            secretKey = new SecretKeySpec(key, "AES");
-        } 
-        catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            DialogBoxes.showErrorBox("Encryption error", e.toString(), "Could not encrypt text. Please check if your key is valid and correct.");
-        } 
-        catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            DialogBoxes.showErrorBox("Encryption error", e.toString(), "Could not encrypt text. Please check if your key is valid and correct.");
-        }
-    }
- 
-    public static String encrypt(String strToEncrypt, String secret) 
+
+class AES {
+
+    public static String encrypt(String strToEncrypt, String secretKey, String salt)
     {
         try
         {
-            setKey(secret);
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
-        } 
-        catch (Exception e) 
-        {
-            System.out.println("Error while encrypting: " + e.toString());
-            DialogBoxes.showErrorBox("Encryption error", e.toString(), "Could not encrypt text. Please check if your key is valid and correct.");
+            byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            IvParameterSpec ivspec = new IvParameterSpec(iv);
+
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+            KeySpec spec = new PBEKeySpec(secretKey.toCharArray(), salt.getBytes(), 65536, 256);
+            SecretKey tmp = factory.generateSecret(spec);
+            SecretKeySpec mSecretKeySpec = new SecretKeySpec(tmp.getEncoded(), "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, mSecretKeySpec, ivspec);
+            return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes(StandardCharsets.UTF_8)));
         }
-        return null;
+        catch (Exception e)
+        {
+        	return ("Error while encrypting: " + e.toString());
+        }
     }
- 
-    public static String decrypt(String strToDecrypt, String secret) 
-    {
+
+    public static String decrypt(String strToDecrypt, String secretKey, String salt) {
         try
         {
-            setKey(secret);
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            IvParameterSpec ivspec = new IvParameterSpec(iv);
+
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+            KeySpec spec = new PBEKeySpec(secretKey.toCharArray(), salt.getBytes(), 65536, 256);
+            SecretKey tmp = factory.generateSecret(spec);
+            SecretKeySpec mSecretKeySpec = new SecretKeySpec(tmp.getEncoded(), "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            cipher.init(Cipher.DECRYPT_MODE, mSecretKeySpec, ivspec);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
-        } 
-        catch (Exception e) 
-        {
-            System.out.println("Error while decrypting: " + e.toString());
-            DialogBoxes.showErrorBox("Encryption error", e.toString(), "Could not encrypt text. Please check if your key is valid and correct.");
         }
-        return null;
+        catch (Exception e) {
+        	return ("Error while decrypting: " + e.toString());
+        }
     }
 }
+
