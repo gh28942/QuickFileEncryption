@@ -15,13 +15,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 
 public class Controller {
 
 	@FXML
-	TextField textfield;
+	PasswordField textfieldKey;
+	@FXML
+	PasswordField textfieldSalt;
 	@FXML
 	TextArea textarea;
 	@FXML 
@@ -33,9 +35,10 @@ public class Controller {
 	@FXML
 	public void encryptText() {
 		try {
-			final String secretKey = textfield.getText();
+			final String secretKey = textfieldKey.getText();
+			final String salt = textfieldSalt.getText();
 		    String originalString = textarea.getText();
-		    String encryptedString = AES.encrypt(originalString, secretKey);
+		    String encryptedString = AES.encrypt(originalString, secretKey, salt);
 		    textarea.setText(encryptedString);
 		} catch (Exception e) {
 			DialogBoxes.showErrorBox("Encryption error", "Could not encrypt text", "Please check if your key is valid and correct.");
@@ -45,9 +48,10 @@ public class Controller {
 	@FXML
 	public void decryptText() {
 		try {
-			final String secretKey = textfield.getText();
+			final String secretKey = textfieldKey.getText();
 		    String encryptedString = textarea.getText();
-		    String decryptedString = AES.decrypt(encryptedString, secretKey);
+			final String salt = textfieldSalt.getText();
+		    String decryptedString = AES.decrypt(encryptedString, secretKey, salt);
 		    textarea.setText(decryptedString);
 		} catch (Exception e) {
 			DialogBoxes.showErrorBox("Decryption error", "Could not decrypt text", "Please check if your key is valid and correct.");
@@ -149,7 +153,7 @@ public class Controller {
 	public void about(){
 		String MITlicense = "Copyright 2020 GerH.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation\n files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, \nmerge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom\n the Software is furnished to do so, subject to the following conditions:\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT\n LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. \nIN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, \nDAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR \nIN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.";
 
-		DialogBoxes.showMessageBox("About", MITlicense, "Copyright by GerH, Developer Github: gh28942\nIcon made by Smashicons from www.flaticon.com", "/encrypt_small.png");
+		DialogBoxes.showMessageBox("About", MITlicense, "Copyright by GerH, Developer Github: gh28942\nversion 1.0.1\nIcon made by Smashicons from www.flaticon.com", "/encrypt_small.png");
 	}
 	
 	@FXML
@@ -209,12 +213,13 @@ public class Controller {
 	}
 	
 	public void encryptFile(File file, boolean updateWall) {
-		final String secretKey = textfield.getText();
+		final String secretKey = textfieldKey.getText();
+		final String salt = textfieldSalt.getText();
 	    String originalString = readFileContent(file);
 	    if(!originalString.contentEquals("Could not read file content!")) {
 	    	boolean isBinary = isBinaryFile(file);
 			if(!isBinary) {
-			    String encryptedString = AES.encrypt(originalString, secretKey);
+			    String encryptedString = AES.encrypt(originalString, secretKey, salt);
 			    saveFileContent(file, encryptedString, false);
 			    if (updateWall)
 			    	updateWall("File encrypted: " + file.getName());
@@ -228,12 +233,13 @@ public class Controller {
 	}
 	
 	public void decryptFile(File file, boolean updateWall) {
-		final String secretKey = textfield.getText();
+		final String secretKey = textfieldKey.getText();
+		final String salt = textfieldSalt.getText();
 	    String encryptedString = readFileContent(file);
 	    if(!encryptedString.contentEquals("Could not read file content!")) {
 	    	boolean isBinary = isBinaryFile(file);
 			if(!isBinary) {
-		    	String decryptedString = AES.decrypt(encryptedString, secretKey);
+		    	String decryptedString = AES.decrypt(encryptedString, secretKey, salt);
 		    	saveFileContent(file, decryptedString, false);
 		    	if (updateWall)
 		    		updateWall("File decrypted: " + file.getName());
