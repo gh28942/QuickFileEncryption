@@ -25,6 +25,7 @@
       <GridPane maxHeight="600.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -32,7 +33,7 @@
             <RowConstraints maxHeight="2000.0" minHeight="10.0" prefHeight="500.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <MenuBar GridPane.valignment="TOP">
+            <MenuBar GridPane.columnSpan="2147483647" GridPane.valignment="TOP">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
@@ -58,14 +59,20 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <TextArea fx:id="textarea" prefHeight="200.0" prefWidth="200.0" promptText="Enter your text here. You can also load a file - its text will appear here ..." wrapText="true" GridPane.rowIndex="2">
+            <TextArea fx:id="textarea" prefHeight="200.0" prefWidth="200.0" promptText="Enter your text here. You can also load a file - its text will appear here ..." wrapText="true" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin></TextArea>
-            <TextField fx:id="textfield" promptText="Encryption key ..." GridPane.rowIndex="1">
+            <PasswordField fx:id="textfieldKey" promptText="Encryption key ..." GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="5.0" right="5.0" top="5.0" />
-               </GridPane.margin></TextField>
+               </GridPane.margin>
+            </PasswordField>
+            <PasswordField fx:id="textfieldSalt" promptText="Salt ..." GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </PasswordField>
          </children>
       </GridPane>
    </children>
