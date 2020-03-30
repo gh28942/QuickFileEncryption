@@ -11,7 +11,7 @@ You can see the program being used here: https://youtu.be/xkMLpztjO3M
 <br><br>
 Program download: https://www.mediafire.com/file/ytjnwm745wv3sfh/QFE_download.zip/file
 <br><br>
-Here's a useful Windows installer for QFE: https://www.mediafire.com/file/ytjnwm745wv3sfh/QFE_download.zip/file
+Here's a useful Windows installer for QFE: http://www.mediafire.com/file/7jovdtn0t3g1rtb/qfe-setup.exe/file
 <br>
 
 ## Screenshots
